@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>plugin1</title>
+<script>
+function b64DecodeUnicode(str) {
+    // Going backwards: from bytestream, to percent-encoding, to original string.
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
+var myVar = setInterval(myTimer, 1000);
+
+function myTimer() {
+  if(localStorage.getItem("recognizedText")){
+    document.getElementById("recognizedText").innerHTML =  b64DecodeUnicode(localStorage.getItem("recognizedText"));
+    clearInterval(myVar);
+    localStorage.removeItem("recognizedText");
+  }
+}
+</script>
+  </head>
+  <body>
+    <h1>Result</h1>
+    <label type="text" id="recognizedText">Waiting...</label><br>  
+  </body>
+</html>
